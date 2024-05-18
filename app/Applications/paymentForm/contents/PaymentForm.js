@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import PaymentNew from "../components/PaymentNew"
 import { useSearchParams } from 'next/navigation';
 import { globalGetService } from "@/app/utils/apiServices";
@@ -15,10 +15,12 @@ const PaymentForm = () => {
     .then(res => setPaymentData(res.data))
   }, []) 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div className="container mx-auto px-6 md:px-0">
        <PaymentNew paymentData={paymentData} referenceId={ref}/>
         {/* <UpgradePlan/> */}
     </div>
+    </Suspense>
   )
 }
 

@@ -1,6 +1,6 @@
 "use client"
 import Image from 'next/image'
-import React, { useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { CgProfile } from 'react-icons/cg'
 import { CiCreditCard1 } from "react-icons/ci";
 import { useSearchParams } from 'next/navigation';
@@ -40,6 +40,7 @@ const PaymentSummary = () => {
       })
   }, [trackid, result, refid, Hash])
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div className='' >
       <div className='bg-white box-shadow rounded-3xl w-full  p-10 text-[#4C4C4D] '>
         <p className=' md:text-[40px]  font-medium text-[30px]'>Payment Summary</p>
@@ -82,6 +83,7 @@ const PaymentSummary = () => {
       </div>
 
     </div>
+    </Suspense>
   )
 }
 

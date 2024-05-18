@@ -1,5 +1,5 @@
 import React from 'react'
-import Payment from './contents/Payment'
+import Payment from './contents/payment'
 
 const page = () => {
   return (
