@@ -8,11 +8,10 @@ import { UseClientSearchParams } from "@/app/Applications/paymentForm/components
 
 const PaymentForm = () => {
   const [paymentData, setPaymentData] = useState({})
-  const params = UseClientSearchParams()
+  const params = new URLSearchParams(window.location.search)
   const ref = params.get('ref')
-
+  const id = params.get('id')
   useEffect(() => {
-    const id = params.get('id')
     globalGetService('get-payment-history', { id: id })
       .then(res => setPaymentData(res.data))
   }, [])

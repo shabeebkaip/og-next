@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic"
+import Payment from './contents/Payment'
 
 
 const page = () => {

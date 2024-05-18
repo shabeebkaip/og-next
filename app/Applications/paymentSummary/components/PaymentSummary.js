@@ -6,37 +6,34 @@ import axios from 'axios';
 import useClientSearchParams from './UseClientSearchParams';
 
 const PaymentSummary = () => {
-  const params = useClientSearchParams();
+  const params = new URLSearchParams(window.location.search);
+  const trackid = params.get('trackid');
+  const result = params.get('result');
+  const refid = params.get('refid');
+  const Hash = params.get('Hash');
   const [paymentData, setPaymentData] = useState({});
 
   useEffect(() => {
-    if (params) {
-      const trackid = params.get('trackid');
-      const result = params.get('result');
-      const refid = params.get('refid');
-      const Hash = params.get('Hash');
+    let data = {
+      trackid: parseInt(trackid),
+      result: result,
+      refid: refid,
+      hash: Hash
+    };
 
-      let data = {
-        trackid: parseInt(trackid),
-        result: result,
-        refid: refid,
-        hash: Hash
-      };
-
-      axios.post('https://api-one-global.code-ox.com/api/check-tampered', data, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
+    axios.post('https://api-one-global.code-ox.com/api/check-tampered', data, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      }
+    })
+      .then(res => {
+        setPaymentData(res.data.data);
       })
-        .then(res => {
-          setPaymentData(res.data.data);
-        })
-        .catch(err => {
-          window.location.href = '/packages';
-          console.log(err);
-        });
-    }
-  }, [params]);
+      .catch(err => {
+        window.location.href = '/packages';
+        console.log(err);
+      });
+  }, []);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
