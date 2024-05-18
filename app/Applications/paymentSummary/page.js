@@ -1,5 +1,5 @@
-import React from 'react'
-import Payment from './contents/payment'
+import dynamic from "next/dynamic"
+
 
 const page = () => {
   return (
