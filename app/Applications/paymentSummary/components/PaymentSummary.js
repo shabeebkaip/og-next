@@ -3,37 +3,40 @@ import Image from 'next/image';
 import React, { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
+import useClientSearchParams from './UseClientSearchParams';
 
 const PaymentSummary = () => {
-  const params = useSearchParams();
+  const params = useClientSearchParams();
   const [paymentData, setPaymentData] = useState({});
-  const trackid = params.get('trackid');
-  const result = params.get('result');
-  const refid = params.get('refid');
-  const errormessage = params.get('errormessage');
-  const Hash = params.get('Hash');
 
   useEffect(() => {
-    let data = {
-      trackid: parseInt(trackid),
-      result: result,
-      refid: refid,
-      hash: Hash
-    };
+    if (params) {
+      const trackid = params.get('trackid');
+      const result = params.get('result');
+      const refid = params.get('refid');
+      const Hash = params.get('Hash');
 
-    axios.post('https://api-one-global.code-ox.com/api/check-tampered', data, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      }
-    })
-      .then(res => {
-        setPaymentData(res.data.data);
+      let data = {
+        trackid: parseInt(trackid),
+        result: result,
+        refid: refid,
+        hash: Hash
+      };
+
+      axios.post('https://api-one-global.code-ox.com/api/check-tampered', data, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
       })
-      .catch(err => {
-        window.location.href = '/packages';
-        console.log(err);
-      });
-  }, [trackid, result, refid, Hash]);
+        .then(res => {
+          setPaymentData(res.data.data);
+        })
+        .catch(err => {
+          window.location.href = '/packages';
+          console.log(err);
+        });
+    }
+  }, [params]);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
